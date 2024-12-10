@@ -81,9 +81,7 @@ class Network(minitorch.Module):
         self.mid = self.conv1.forward(x).relu()
         self.out = self.conv2.forward(self.mid).relu()
         # 2D pooling, flatten
-        layer = self.layer1.forward(
-            minitorch.avgpool2d(self.out, (4, 4)).view(BATCH, 392)
-        )
+        layer = self.layer1.forward(minitorch.avgpool2d(self.out, (4, 4)).view(BATCH, 392).relu())
         layer = minitorch.dropout(layer, rate=0.25, ignore=not self.training)
         layer = self.layer2.forward(layer)
         # logsoftmax
